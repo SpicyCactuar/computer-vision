@@ -18,7 +18,7 @@ gaussianKernel = np.array([
 def apply_rayleigh_noise(img, a, b):
     noisyImage = np.random.uniform(0, 1, img.shape)
     noisyImage = a + np.sqrt(-b * np.log(1 - noisyImage))
-    return noisyImage.astype(np.uint8) + img
+    return noisyImage.astype(np.uint8) * img
 
 def smooth_image_with_noise(img, a, b):
     return cv2.filter2D(apply_rayleigh_noise(img, a, b), -1, gaussianKernel)

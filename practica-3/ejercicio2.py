@@ -44,7 +44,6 @@ def main(argv):
         print("ancho y alto deben ser números naturales impares")
         return
 
-
     cv2.namedWindow("window")
     cv2.imshow("window", apply_convolution(img, width, height))
     cv2.waitKey(0)
