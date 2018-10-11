@@ -17,7 +17,7 @@ gaussianKernel = np.array([
 
 def apply_gaussian_noise(img, a, b):
     noisyImage = np.random.normal(a, b, img.shape)
-    return noisyImage.astype(np.uint8) + img
+    return (noisyImage + img).astype(np.uint8)
 
 def smooth_image_with_noise(img, a, b):
     return cv2.filter2D(apply_gaussian_noise(img, a, b), -1, gaussianKernel)

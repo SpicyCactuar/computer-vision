@@ -43,12 +43,12 @@ robertsKernelYAxis = np.array([
 
 def apply_gaussian_noise(img, a, b):
     noisyImage = np.random.normal(a, b, img.shape)
-    return noisyImage.astype(np.uint8) + img
+    return (noisyImage + img).astype(np.uint8)
 
 def apply_rayleigh_noise(img, a, b):
     noisyImage = np.random.uniform(0, 1, img.shape)
     noisyImage = a + np.sqrt(-b * np.log(1 - noisyImage))
-    return noisyImage.astype(np.uint8) * img
+    return (noisyImage * img).astype(np.uint8)
 
 def apply_salt_and_pepper_noise(img, saltPercent, pepperPercent):
     noisyImg = img.copy()
@@ -75,13 +75,13 @@ def detect_borders(img, detector, threshold):
         gradientX = cv2.filter2D(img, -1, sobelKernelXAxis)
         gradientY = cv2.filter2D(img, -1, sobelKernelYAxis)
     
-    magnitude = np.sqrt((gradientX ** 2) + (gradientY ** 2)).astype(np.uint8)
+    magnitude = np.sqrt((gradientX.astype(np.float64) ** 2) + (gradientY.astype(np.float64) ** 2))
     result = magnitude.copy()
 
     result[magnitude <= threshold] = 255
     result[magnitude > threshold] = 0
 
-    return result
+    return result.astype(np.uint8)
 
 def main(argv):
     if (len(argv) < 3):
@@ -109,17 +109,17 @@ def main(argv):
         return
 
     cv2.namedWindow("gaussian noise")
-    cv2.imshow("gaussian noise", detect_borders(apply_gaussian_noise(img, 1, 1), detector, threshold))
+    cv2.imshow("gaussian noise", detect_borders(apply_gaussian_noise(img, 10, 10), detector, threshold))
     cv2.waitKey(0)
     cv2.destroyWindow("gaussian noise")
 
     cv2.namedWindow("rayleigh noise")
-    cv2.imshow("rayleigh noise", detect_borders(apply_rayleigh_noise(img, 1, 1), detector, threshold))
+    cv2.imshow("rayleigh noise", detect_borders(apply_rayleigh_noise(img, 0.1, 0.5), detector, threshold))
     cv2.waitKey(0)
     cv2.destroyWindow("rayleigh noise")
 
     cv2.namedWindow("salt and pepper")
-    cv2.imshow("salt and pepper", detect_borders(apply_salt_and_pepper_noise(img, 0.9, 0.1), detector, threshold))
+    cv2.imshow("salt and pepper", detect_borders(apply_salt_and_pepper_noise(img, 0.95, 0.05), detector, threshold))
     cv2.waitKey(0)
     cv2.destroyWindow("salt and pepper")
 
