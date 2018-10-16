@@ -58,7 +58,7 @@ def laplacianOfGaussian(img):
 def main(argv):
     if (len(argv) < 1):
         print("Error de parámetros.")
-        print("Uso: ejercicio2a.py img")
+        print("Uso: ejercicio2c.py img")
         print("")
         return
 
