@@ -8,18 +8,18 @@ import math
 import random
 
 robertsKernelXAxis = np.array([
-    [1, 0], 
+    [1, 0],
     [0, -1]
 ])
 
 robertsKernelYAxis = np.array([
-    [0, 1], 
+    [0, 1],
     [-1, 0]
 ])
 
 def detect_borders(img, threshold):
-    gradientX = cv2.filter2D(img, -1, robertsKernelXAxis)
-    gradientY = cv2.filter2D(img, -1, robertsKernelYAxis)
+    gradientX = cv2.filter2D(img.astype(np.float64), -1, robertsKernelXAxis)
+    gradientY = cv2.filter2D(img.astype(np.float64), -1, robertsKernelYAxis)
     magnitude = np.sqrt((gradientX.astype(np.float64) ** 2) + (gradientY.astype(np.float64) ** 2))
     result = magnitude.copy()
 

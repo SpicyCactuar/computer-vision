@@ -20,8 +20,8 @@ prewittKernelYAxis = np.array([
 ])
 
 def detect_borders(img, threshold):
-    gradientX = cv2.filter2D(img, -1, prewittKernelXAxis)
-    gradientY = cv2.filter2D(img, -1, prewittKernelYAxis)
+    gradientX = cv2.filter2D(img.astype(np.float64), -1, prewittKernelXAxis)
+    gradientY = cv2.filter2D(img.astype(np.float64), -1, prewittKernelYAxis)
     magnitude = np.sqrt((gradientX.astype(np.float64) ** 2) + (gradientY.astype(np.float64) ** 2))
     result = magnitude.copy()
 

@@ -20,8 +20,8 @@ sobelKernelYAxis = np.array([
 ])
 
 def detect_borders(img, threshold):
-    gradientX = cv2.filter2D(img, -1, sobelKernelXAxis)
-    gradientY = cv2.filter2D(img, -1, sobelKernelYAxis)
+    gradientX = cv2.filter2D(img.astype(np.float64), -1, sobelKernelXAxis)
+    gradientY = cv2.filter2D(img.astype(np.float64), -1, sobelKernelYAxis)
     magnitude = np.sqrt((gradientX.astype(np.float64) ** 2) + (gradientY.astype(np.float64) ** 2))
     result = magnitude.copy()
 

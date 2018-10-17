@@ -32,12 +32,12 @@ prewittKernelYAxis = np.array([
 ])
 
 robertsKernelXAxis = np.array([
-    [1, 0], 
+    [1, 0],
     [0, -1]
 ])
 
 robertsKernelYAxis = np.array([
-    [0, 1], 
+    [0, 1],
     [-1, 0]
 ])
 
@@ -66,15 +66,15 @@ def apply_salt_and_pepper_noise(img, saltPercent, pepperPercent):
 
 def detect_borders(img, detector, threshold):
     if detector == "roberts":
-        gradientX = cv2.filter2D(img, -1, robertsKernelXAxis)
-        gradientY = cv2.filter2D(img, -1, robertsKernelYAxis)
+        gradientX = cv2.filter2D(img.astype(np.float64), -1, robertsKernelXAxis)
+        gradientY = cv2.filter2D(img.astype(np.float64), -1, robertsKernelYAxis)
     elif detector == "prewitt":
-        gradientX = cv2.filter2D(img, -1, prewittKernelXAxis)
-        gradientY = cv2.filter2D(img, -1, prewittKernelYAxis)
+        gradientX = cv2.filter2D(img.astype(np.float64), -1, prewittKernelXAxis)
+        gradientY = cv2.filter2D(img.astype(np.float64), -1, prewittKernelYAxis)
     else:
-        gradientX = cv2.filter2D(img, -1, sobelKernelXAxis)
-        gradientY = cv2.filter2D(img, -1, sobelKernelYAxis)
-    
+        gradientX = cv2.filter2D(img.astype(np.float64), -1, sobelKernelXAxis)
+        gradientY = cv2.filter2D(img.astype(np.float64), -1, sobelKernelYAxis)
+
     magnitude = np.sqrt((gradientX.astype(np.float64) ** 2) + (gradientY.astype(np.float64) ** 2))
     result = magnitude.copy()
 
@@ -95,9 +95,9 @@ def main(argv):
     img = cv2.cvtColor(cv2.imread(argv[0]), cv2.COLOR_BGR2GRAY)
 
     try:
-        threshold = int(argv[1])      
+        threshold = int(argv[1])
 
-        if not (0 <= threshold and threshold <= 255): raise ValueError        
+        if not (0 <= threshold and threshold <= 255): raise ValueError
     except ValueError:
         print("umbral un número en [0, 255]")
         return
