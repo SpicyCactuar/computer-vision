@@ -25,8 +25,8 @@ def detect_borders(img, threshold):
     magnitude = np.sqrt((gradientX.astype(np.float64) ** 2) + (gradientY.astype(np.float64) ** 2))
     result = magnitude.copy()
 
-    result[magnitude <= threshold] = 255
-    result[magnitude > threshold] = 0
+    result[magnitude >= threshold] = 255
+    result[magnitude < threshold] = 0
 
     return result.astype(np.uint8)
 
