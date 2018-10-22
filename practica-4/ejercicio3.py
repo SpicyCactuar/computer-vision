@@ -32,12 +32,12 @@ prewittKernelYAxis = np.array([
 ])
 
 robertsKernelXAxis = np.array([
-    [1, 0], 
+    [1, 0],
     [0, -1]
 ])
 
 robertsKernelYAxis = np.array([
-    [0, 1], 
+    [0, 1],
     [-1, 0]
 ])
 
@@ -128,7 +128,7 @@ def border_value(magnitude, i, j, direction):
             return 0
 
     return magnitudeValue
-    
+
 
 def supress_non_maximums(magnitude, angles):
     normalizedAngles = angles.copy()
@@ -149,7 +149,7 @@ def traversing_directions(position, direction, shape):
     height, width = shape
     directions = []
     i, j = position
-    
+
     if direction == 0.0:
         if i < height - 1:
             directions.append((1, 0))
@@ -183,7 +183,7 @@ def traverse_border(position, magnitude, angles, bordersMask, uMin):
         for direction in traversingDirections:
             nextPosition = (currentPosition[0] + direction[0], currentPosition[1] + direction[1])
             if bordersMask[nextPosition]: continue
-            
+
             bordersMask[nextPosition] = magnitude[nextPosition] > uMin
 
             if bordersMask[nextPosition]:
@@ -225,7 +225,7 @@ def main(argv):
         print("")
         return
 
-    imgLena = cv2.cvtColor(cv2.imread("lena.png"), cv2.COLOR_BGR2GRAY)
+    #imgLena = cv2.cvtColor(cv2.imread("lena.png"), cv2.COLOR_BGR2GRAY)
     imgTest = cv2.cvtColor(cv2.imread("test.png"), cv2.COLOR_BGR2GRAY)
 
     try:
@@ -251,46 +251,70 @@ def main(argv):
     cv2.destroyWindow("Original image")
 
     # Sin histéresis
+    result = detect_borders(imgTest, detector, uMin, uMax, False)
     cv2.namedWindow("Non-maximum supression")
-    cv2.imshow("Non-maximum supression", detect_borders(imgTest, detector, uMin, uMax, False))
+    cv2.imshow("Non-maximum supression", result)
     cv2.waitKey(0)
     cv2.destroyWindow("Non-maximum supression")
 
+    cv2.imwrite('nonMaximumSupression' + detector.capitalize() + '.png', result)
+
+    result = detect_borders(apply_gaussian_noise(imgTest, 10, 10), detector, uMin, uMax, False)
     cv2.namedWindow("gaussian noise")
-    cv2.imshow("gaussian noise", detect_borders(apply_gaussian_noise(imgTest, 10, 10), detector, uMin, uMax, False))
+    cv2.imshow("gaussian noise", result)
     cv2.waitKey(0)
     cv2.destroyWindow("gaussian noise")
 
+    cv2.imwrite('nonMaximumSupressionGaussian' + detector.capitalize() + '.png',result)
+
+    result = detect_borders(apply_rayleigh_noise(imgTest, 0.1, 0.5), detector, uMin, uMax, False)
     cv2.namedWindow("rayleigh noise")
-    cv2.imshow("rayleigh noise", detect_borders(apply_rayleigh_noise(imgTest, 0.1, 0.5), detector, uMin, uMax, False))
+    cv2.imshow("rayleigh noise", result)
     cv2.waitKey(0)
     cv2.destroyWindow("rayleigh noise")
 
+    cv2.imwrite('nonMaximumSupressionRayleigh' + detector.capitalize() + '.png',result)
+
+    result = detect_borders(apply_salt_and_pepper_noise(imgTest, 0.95, 0.05), detector, uMin, uMax, False)
     cv2.namedWindow("salt and pepper")
-    cv2.imshow("salt and pepper", detect_borders(apply_salt_and_pepper_noise(imgTest, 0.95, 0.05), detector, uMin, uMax, False))
+    cv2.imshow("salt and pepper", result)
     cv2.waitKey(0)
     cv2.destroyWindow("salt and pepper")
 
+    cv2.imwrite('nonMaximumSupressionSaltAndPepper' + detector.capitalize() + '.png',result)
+
     # Con histéresis
+    result = detect_borders(imgTest, detector, uMin, uMax, True)
     cv2.namedWindow("With hysteresis")
-    cv2.imshow("With hysteresis", detect_borders(imgTest, detector, uMin, uMax, True))
+    cv2.imshow("With hysteresis", result)
     cv2.waitKey(0)
     cv2.destroyWindow("With hysteresis")
 
+    cv2.imwrite('hysteresis' + detector.capitalize() + '.png',result)
+
+    result = detect_borders(apply_gaussian_noise(imgTest, 10, 10), detector, uMin, uMax, True)
     cv2.namedWindow("gaussian noise")
-    cv2.imshow("gaussian noise", detect_borders(apply_gaussian_noise(imgTest, 10, 10), detector, uMin, uMax))
+    cv2.imshow("gaussian noise", result)
     cv2.waitKey(0)
     cv2.destroyWindow("gaussian noise")
 
+    cv2.imwrite('hysteresisGaussian' + detector.capitalize() + '.png',result)
+
+    result = detect_borders(apply_rayleigh_noise(imgTest, 0.1, 0.5), detector, uMin, uMax, True)
     cv2.namedWindow("rayleigh noise")
-    cv2.imshow("rayleigh noise", detect_borders(apply_rayleigh_noise(imgTest, 0.1, 0.5), detector, uMin, uMax))
+    cv2.imshow("rayleigh noise", result)
     cv2.waitKey(0)
     cv2.destroyWindow("rayleigh noise")
 
+    cv2.imwrite('hysteresisRayleigh' + detector.capitalize() + '.png',result)
+
+    result = detect_borders(apply_salt_and_pepper_noise(imgTest, 0.95, 0.05), detector, uMin, uMax, True)
     cv2.namedWindow("salt and pepper")
-    cv2.imshow("salt and pepper", detect_borders(apply_salt_and_pepper_noise(imgTest, 0.95, 0.05), detector, uMin, uMax))
+    cv2.imshow("salt and pepper", result)
     cv2.waitKey(0)
     cv2.destroyWindow("salt and pepper")
+
+    cv2.imwrite('hysteresisSaltAndPepper' + detector.capitalize() + '.png',result)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
