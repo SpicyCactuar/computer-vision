@@ -1,1 +1,0 @@
-* Arreglar Práctica 3 - Bordes
