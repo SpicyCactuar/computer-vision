@@ -1,0 +1,25 @@
+Sean l1 y l2 dos rectas /
+
+l1 = (    x1     x2 x3)
+l2 = (k * x1 k * x2 y3)
+
+con y3 != k * x3.
+
+l1 y l2 se intersecan en un punto en el infinito z = (z1 z2 0)
+
+Sean H, l1' y l2' /
+
+l1' = H^-t * l1
+l2' = H^-t * l2
+
+H una transformación afín de la forma:
+H = [a, b, tx]
+    [c, d, ty]
+    [0, 0,  1]
+
+Como z pertenece a l1 y l2, entonces H(z) pertenece a H(l1) y H(l2) porque es afín.
+
+H(z) = H * z = [a*z1 + b*z2, c*z1 + d*z2, 0]
+
+Luego, este punto está en el infinito, por lo que estas rectas transformadas son paralelas.
+

@@ -1,0 +1,90 @@
+a)
+
+La matriz de rotación es:
+
+H = [cos 90, -sin 90, 0]
+    [sin 90,  cos 90, 0]
+    [     0,       0, 1]
+
+Para transformar las rectas, debemos conseguir H^-t:
+
+H^-1 = [ 0, 1, 0]
+       [-1, 0, 0]
+       [ 0, 0, 1]
+
+Por lo tanto,
+
+H^-t = H
+
+l1 = (2 3 1)
+l2 = (4 6 5)
+
+l1' = (H^-t) * l1 = (-3 2 1)
+l2' = (H^-t) * l2 = (-6 4 5)
+
+Las rectas se mantienen paralelas puesto que nada más fueron rotadas.
+
+b) 
+
+La recta l1 = (2 3 0) está dada por la ecuación:
+
+2x + 3y + 1 = 0 => 3y = -2x - 1 => y = -2/3x - 1/3
+
+Por ende, la transformación que tenemos que hacer es la que traslade y por 1/2:
+
+H = [1, 0,   0]
+    [0, 1, 1/3]
+    [0, 0,   1]
+
+H^-t = [1,    0, 0]
+       [0,    1, 0]
+       [0, -1/3, 1]
+
+H^-t * l1 = (2 3 0) = l1'
+
+Finalmente, l1' está dado por la ecuación 2x + 3y = 0 que se verifica en el (0, 0).
+
+H^-t * l2 = (4 6 3) = l2'
+
+Por lo tanto,
+
+l1' = (2 3 0)
+l2' = (4 6 3)
+
+Que son paralelas.
+
+c)
+
+La transformación de escalado doble es:
+
+H = [2, 0, 0]
+    [0, 2, 0]
+    [0, 0, 1]
+
+H^-t = [1/2,   0, 0]
+       [  0, 1/2, 0]
+       [  0,   0, 1]
+
+Por lo tanto,
+
+l1' = H^-t * l1 = (1 3/2 1)
+l2' = H^-t * l2 = (2 3 5)
+
+Que son paralelas (tomar k = 2 para ambas coordenadas).
+
+d)
+
+Tomamos una proyección H /
+
+H = [1, 0, 0]
+    [0, 1, 0]
+    [1, 1, 1]
+
+H^-t = [1, 0, -1]
+       [0, 1, -1]
+       [0, 0,  1]
+
+l1' = H^-t * l1 = (1 2 1)
+l2' = H^-t * l2 = (-1 1 5)
+
+No son paralelas.

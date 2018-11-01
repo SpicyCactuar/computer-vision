@@ -1,0 +1,22 @@
+Tomamos una transformación afin genérica:
+
+H = [a, b, tx]
+    [c, d, ty]
+    [0, 0,  1]
+
+Sean A y T /
+
+A = [a, b]
+    [c, d]
+
+T = [tx]
+    [ty]
+
+Por lo tanto,
+
+H^-t = [       A^-t, 0]
+       [-T^t * A^-t, 1]
+
+H^-t * (0 0 1) = (0 0 1)
+
+Por lo tanto, la transformación afín mapea las rectas del infinito al infinito.

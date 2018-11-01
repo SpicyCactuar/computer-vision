@@ -1,0 +1,28 @@
+Tomamos una transformación afin genérica:
+
+H = [a, b, tx]
+    [c, d, ty]
+    [0, 0,  1]
+
+Sean A y T /
+
+A = [a, b]
+    [c, d]
+
+T = [tx]
+    [ty]
+
+Por lo tanto,
+
+H^-t = [       A^-t, 0]
+       [-T^t * A^-t, 1]
+
+Tomo x = (x1 x2 x3) / x pertenece a l = (l1 l2 l3)
+
+l^t * x = 0 => l1 * x1 + l2 * x2 + l3 * x3 = 0
+
+Quiero ver que H(l)^t * H(x) = 0 =>
+
+(H^-t * l)^t * (H * x) = l^t * (H^-1 * H) * x = l^t * x = 0
+
+Por lo tanto, se mantiene la colinealidad.

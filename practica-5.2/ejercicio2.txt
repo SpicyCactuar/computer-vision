@@ -1,0 +1,7 @@
+Visualmente se puede deducir que la transformación es una isometría, ya que hay que trasladar y rotar.
+
+La matriz de transformación es:
+
+H = [cos 45, -sin 45,    0]
+    [sin 45,  cos 45, -100]
+    [     0,       0,    1]
