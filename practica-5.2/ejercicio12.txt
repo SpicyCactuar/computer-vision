@@ -1,0 +1,26 @@
+Veamos la ida y la vuelta por separado:
+
+<=) Sabemos que l∞ = (0 0 1). Sea H una afinidad /
+
+H = [A T]
+    [0 1]
+
+Entonces,
+
+H^-t = [       A^-t, 0]
+       [-T^t * A^-t, 1]
+
+
+l'∞ = H^-t * l∞ = (0 0 1)
+
+=>) Sea H una matriz de transformación proyectiva. Definimos:
+
+H^-t = [h11 h12 h13]
+       [h21 h22 h23]
+       [h31 h32 h33]
+
+Si H mapea l∞ a otra línea en el infinito l'∞ => Se cumple que l'∞ = H^-t * l∞
+
+Para que esto se cumpla, se requiere que h13 y h23 sean 0. De no ser así, las primeras 2 coordenadas de l'∞ serían != 0.
+
+Por lo tanto, H es una afinidad.

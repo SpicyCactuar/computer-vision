@@ -1,0 +1,12 @@
+Sea H la matriz de la transformación proyectiva. H de 2x2.
+
+Para probar la propiedad, veamos que:
+
+[h(xi); h(xj)] = [H * xi; H * xj] = det(H)*[xi; xj], i != j
+
+La igualdad [H * xi; H * xj] = det(H)*[xi; xj] se puede verificar algebraicamente. No lo anotamos acá porque es cuentoso. :D
+
+Con este lema probado, se observa que:
+
+Cross(h(x1), h(x2), h(x3), h(x4)) = det(H)^2*[x1; x3][x2; x4] / det(H)^2*[x1; x4][x2; x3] = 
+[x1; x3][x2; x4] / [x1; x4][x2; x3] = Cross(x1, x2, x3, x4)

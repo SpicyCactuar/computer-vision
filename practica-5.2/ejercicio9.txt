@@ -1,0 +1,8 @@
+a) Verdadero. Dicha transformación es una rotación + una traslación. Por ende, todos los puntos se mueven la misma distancia.
+b) Falso. Tienen 3: θ, tx y ty.
+c) Falso. Tienen 4: θ, s, tx y ty.
+d) Verdadero. La rotación y la traslación no alteran la forma, y el escalamiento isotrópico. Por lo tanto, la forma no cambia.
+e) Falso. No siempre se cumple. Basta tomar una transformación afín con escalamiento no isotrópico.
+f) Falso. Tienen 6: a1, a2, a3, a4, tx y ty.
+g) Falso. No siempre se cumple. Basta tomar una transformación afín con escalamiento no isotrópico y mirar las esquinas.
+h) Falso. Tienen 8, son todas las posiciones de la matriz de transformación excepto la posición de abajo a la derecha. Puede ser cualquier valor v != 0.

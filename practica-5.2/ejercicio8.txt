@@ -1,0 +1,30 @@
+Descomponemos A utilizando SVD. Por lo tanto,
+
+A = UDV^t = U(V^tV)DV = (UV^t)(VDV^t)
+
+Por SVD, sabemos que:
+
+* V es una matriz ortogonal y de rotación. Por lo tanto, V^t también lo es.
+* U es una matriz ortogonal y de rotación.
+* D es una matriz diagonal con todos sus elementos positivos.
+
+Además, sabemos que la multiplicación de matrices de rotación, es una matriz de rotación.
+
+Por ende,
+
+* (UV^t) = R(θ). Una rotación con ángulo θ.
+* V = R(ϕ). Una rotación con ángulo ϕ.
+* V^t = R(-ϕ). Una rotación con ángulo -ϕ.
+* D = [λ1  0]. Un escalamiento no isotrópico.
+      [ 0 λ2]
+
+A = (UV^t)(VDV^t) = R(θ)(R(ϕ)DR(-ϕ))
+
+Es decir, A transforma haciendo en este orden:
+
+* Una rotacíon de ́angulo -ϕ
+* Un escalamiento no isotŕopico por λ1 y λ2
+* Una rotación ϕ, efectivamente cancelando la primera rotación -ϕ
+* Una rotación θ
+
+Por lo tanto, A termina transformando la imagen aplicando una rotación de ángulo θ y un escalamiento no isotŕopico por λ1 y λ2.

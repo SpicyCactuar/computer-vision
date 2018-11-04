@@ -1,0 +1,19 @@
+Sean l1 y l2 rectas paralelas. Por lo tanto:
+
+l1 = (x y z)
+l2 = (kx ky w)
+
+w != kz, k != 0
+
+Para encontrar la intersección, tomamos el producto vectorial:
+
+P = l1 x l2 = (yw - kyz, kxz - xw, xky - kxy) = (yw - kyz, kxz - xw, 0) = (a b 0)
+
+Por lo tanto, P es un punto en el infinito.
+
+Veamos que l1 y l2 intersecan con l∞ en un mismo punto:
+
+l1 x l∞ = (y - 0z, 0z - x, x0 - 0y) = (y -x 0) = P1
+l2 x l∞ = (ky - 0w, 0w - kx, kx0 - 0ky) = (ky -kx 0) = P2
+
+Como trabajamos en coordenadas homogeneas, P1 = P2.
