@@ -34,11 +34,11 @@ def RANSAC(correspondences):
     N = 3
     t = math.sqrt(5.99 * 15) # asumimos varianza 15
 
-    for j in range(N):
+    for _ in range(N):
         homographies = []
 
         consensusNumber = 0
-        s = correspondences[np.random.choice(correspondences.shape[0], 4, replace=False), :]
+        s = correspondences[np.random.choice(len(correspondences), 4, replace=False), :]
         H = DLT(s)
         firstImagePoints = s[:, 0]
         for i in range(len(firstImagePoints)):
@@ -55,22 +55,28 @@ def RANSAC(correspondences):
 
 
 def main(argv):
-    img = cv2.imread("dameros/damero2.jpg")
-    if img is None:
+    damero2 = cv2.imread("dameros/damero2.jpg")
+    damero5 = cv2.imread("dameros/damero5.jpg")
+    if damero2 is None:
         print("No se pudo cargar la imagen dameros/damero2.jpg")
         return
+    if damero5 is None:
+        print("No se pudo cargar la imagen dameros/damero5.jpg")
+        return
 
-    # TODO: Encontrar correspondencias correctas
-    correspondences = [
-        np.array([[867, 780, 1], [315, 1225, 1]]),
-        np.array([[864, 1078, 1], [472, 1457, 1]]),
-        np.array([[1160, 1085, 1], [710, 1281, 1]]),
-        np.array([[1162, 783, 1], [550, 1047, 1]])
-    ]
+    sift = cv2.xfeatures2d.SIFT_create()
+    damero2Kp, damero2Des = sift.detectAndCompute(damero2, None)
+    damero5Kp, damero5Des = sift.detectAndCompute(damero5, None)
 
-    rows, cols, _ = img.shape
+    bf = cv2.BFMatcher()
+    matches = bf.knnMatch(damero2Des, damero5Des, k=2)
+
+    rows, cols, _ = damero2.shape
+    srcPoints = np.array([damero2Kp[mat[0].queryIdx].pt + (1,) for mat in matches])
+    dstPoints = np.array([damero5Kp[mat[0].trainIdx].pt + (1,) for mat in matches])
+    correspondences = list(zip(srcPoints, dstPoints))
     H = RANSAC(correspondences)
-    result = cv2.warpPerspective(img, H, (cols, rows))
+    result = cv2.warpPerspective(damero2, H, (cols, rows))
 
     cv2.namedWindow("RANSAC")
     cv2.imshow("RANSAC", result)
