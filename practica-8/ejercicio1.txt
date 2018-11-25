@@ -1,0 +1,47 @@
+Sea un sistema de coordenadas con centro en (X, Y, Z).
+
+A)
+
+Sólo rotamos en z y en y, por lo tanto:
+
+R = Rz(90) * Ry(-90) * I = Rz(90) * Ry(-90)
+
+Rz(90) = [cos 90, -sin 90, 0]
+         [sin 90,  cos 90, 0]
+         [     0,       0, 1]
+
+Ry(-90) = [ cos -90, 0, sin -90]
+          [       0, 1,       0]
+          [-sin -90, 0, cos -90]
+
+B)
+
+Sólo rotamos en x y en z, por lo tanto:
+
+R = Rz(90) * I * Rx(90) = Rz(90) * Rx(90)
+
+Rz(90) = [cos 90, -sin 90, 0]
+         [sin 90,  cos 90, 0]
+         [     0,       0, 1]
+
+Rx(90) = [1,      0,       0]
+         [0, cos 90, -sin 90]
+         [0, sin 90,  cos 90]
+
+C)
+
+Rotamos en los 3 ejes, por lo tanto:
+
+R = Rz(30) * Ry(90) * Rx(45)
+
+Rz(30) = [cos 30, -sin 30, 0]
+         [sin 30,  cos 30, 0]
+         [     0,       0, 1]
+
+Ry(90) = [ cos 90, 0, sin 90]
+         [      0, 1,      0]
+         [-sin 90, 0, cos 90]
+
+Rx(45) = [1,      0,       0]
+         [0, cos 45, -sin 45]
+         [0, sin 45,  cos 45]
