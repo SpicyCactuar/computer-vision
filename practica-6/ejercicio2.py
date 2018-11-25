@@ -70,10 +70,14 @@ def main(argv):
 
     bf = cv2.BFMatcher()
     matches = bf.knnMatch(damero2Des, damero5Des, k=2)
+    goodMatches = []
+    for m,n in matches:
+        if m.distance < 0.75 * n.distance:
+            goodMatches.append([m])
 
     rows, cols, _ = damero2.shape
-    srcPoints = np.array([damero2Kp[mat[0].queryIdx].pt + (1,) for mat in matches])
-    dstPoints = np.array([damero5Kp[mat[0].trainIdx].pt + (1,) for mat in matches])
+    srcPoints = np.array([damero2Kp[mat[0].queryIdx].pt + (1,) for mat in goodMatches])
+    dstPoints = np.array([damero5Kp[mat[0].trainIdx].pt + (1,) for mat in goodMatches])
     correspondences = list(zip(srcPoints, dstPoints))
     H = RANSAC(correspondences)
     result = cv2.warpPerspective(damero2, H, (cols, rows))

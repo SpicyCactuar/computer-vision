@@ -30,18 +30,22 @@ def main(argv):
         kp, des = sift.detectAndCompute(img, None)
         bf = cv2.BFMatcher()
         matches = bf.knnMatch(originalDes, des, k=2)
+        goodMatches = []
+        for m,n in matches:
+            if m.distance < 0.75 * n.distance:
+                goodMatches.append([m])
 
-        srcPoints = np.array([originalKp[mat[0].queryIdx].pt for mat in matches])
-        dstPoints = np.array([kp[mat[0].trainIdx].pt for mat in matches])
+        srcPoints = np.array([originalKp[mat[0].queryIdx].pt for mat in goodMatches])
+        dstPoints = np.array([kp[mat[0].trainIdx].pt for mat in goodMatches])
         _, mask = cv2.findHomography(srcPoints, dstPoints, cv2.RANSAC, 5.0)
         mask = mask.ravel().tolist()
-        matches = [match[0] for match in matches]
-        matches = np.ma.array(matches, mask=mask).compressed()
-        matches = [[match] for match in matches]
+        goodMatches = [match[0] for match in goodMatches]
+        goodMatches = np.ma.array(goodMatches, mask=mask).compressed()
+        goodMatches = [[match] for match in goodMatches]
 
-        matchImg = cv2.drawMatchesKnn(originalImg, originalKp, img, kp, matches, outImg=None, flags=2)
+        matchImg = cv2.drawMatchesKnn(originalImg, originalKp, img, kp, goodMatches, outImg=None, flags=2)
 
-        print(filename + " Nm/Nk: " + str(len(matches) / float(len(originalKp)))) 
+        print(filename + " Nm/Nk: " + str(len(goodMatches) / float(len(originalKp)))) 
 
         title = filename
         cv2.namedWindow(title)
