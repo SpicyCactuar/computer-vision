@@ -8,6 +8,7 @@ TODOs
 * Generar la red neuronal convolucional de bloques de 3x3 con Batch-Norm y ReLU:
     * Armar input de imagenes con 2 channels en greyscale
     * Armar 8 layers de 64, 64, 64, 64, 128, 128, 128, 128 filtros respectivamente
+		* Max pooling layer (2x2, stride 2) cada dos convoluciones.
     * Agregar Dropout de 0.5 al final de la última layer convolucional
     * Armar 1 layer totalmente conectada de 1024 unidades con Droput de 0.5
     * Armar 1 layer Euclidean (L2) loss, de 8 unidades
