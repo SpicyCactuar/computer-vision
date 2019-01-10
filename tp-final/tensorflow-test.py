@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*
 
-
 import tensorflow as tf
 import numpy as np
 import cv2
@@ -21,8 +20,8 @@ composite[:,:,1] = img2/255.0
 
 labels = [-30.0, -20.0, 20.0, -12.0, -16.0, 41.0, 25.0, 30.0]
 
-x_train = np.array([composite]*64)
-y_train = np.array([labels] * 64)
+x_train = np.array([composite] * 1024)
+y_train = np.array([labels] * 1024)
 
 # TODO: Hacer una clase secuencia que CARGUE las imágenes de a batches y las preprocese así no tenemos 500000 imágenes en memoria. Esto es sólo para probar multithreading. Ignorar.
 class ImageSequence(tf.keras.utils.Sequence):
@@ -100,17 +99,19 @@ model = tf.keras.models.Sequential([
 	tf.keras.layers.Dense(1024, activation=tf.nn.relu),
 	tf.keras.layers.Dropout(0.5),
 
-	# última layer totalmente conectada, 8 unidades, softmax
-	tf.keras.layers.Dense(8, activation=tf.nn.softmax)
+	# última layer totalmente conectada, 8 unidades
+	tf.keras.layers.Dense(8)
 ])
+# Esto es para ver el modelo. Se puede comentar.
+#model.summary()
+
+def euclidean_distance_loss(y_true, y_pred):
+	return tf.keras.backend.sqrt(tf.keras.backend.sum(tf.keras.backend.square(y_pred - y_true), axis=-1))
 
 # Compilar modelo con loss=l2, SGD con Momentum de 0.9, learning rate de 0.005
 model.compile(optimizer=tf.keras.optimizers.SGD(lr=0.005, momentum=0.9),
-			  loss=tf.losses.mean_squared_error,
+			  loss=euclidean_distance_loss,
 			  metrics=['accuracy'])
-
-# Esto es para ver el modelo. Se puede comentar.
-#model.summary()
 
 #####################################################
 # Entrenamiento
