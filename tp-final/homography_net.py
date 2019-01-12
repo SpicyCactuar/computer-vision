@@ -45,8 +45,8 @@ sequentialInput = ImageSequence(x_train, y_train, 64)
 #####################################################
 # Filtros de: 64, 64, 64, 64, 128, 128, 128, 128
 model = tf.keras.models.Sequential([
-	# imágenes de 128 x 128 y 2 canales grayscale. Necesario pasar el batch size acá?
-	tf.keras.layers.Conv2D(input_shape=(128, 128, 2), data_format="channels_last", filters=64, kernel_size=(3,3), strides=1, padding="same", use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros'),
+	# imágenes de 128 x 128 y 2 canales grayscale.
+	tf.keras.layers.Conv2D(input_shape=(128, 128, 2), data_format="channels_last", filters=64, kernel_size=(3, 3), strides=1, padding="same", use_bias=True, kernel_initializer='glorot_uniform',bias_initializer='zeros'),
 	# Batch Normalization puede hacerse antes ó después de la función de activación y la comunidad de machine learning está dividida en qué es mejor.
 	# Aunque es default, el axis=-1 funciona para data_format="channels_last", si fuera "channels_first" sería axis=1
 	tf.keras.layers.BatchNormalization(axis=-1),
