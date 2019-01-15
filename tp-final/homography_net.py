@@ -135,7 +135,7 @@ def euclidean_distance_loss(y_true, y_pred):
 # Compilar modelo con loss=l2, SGD con Momentum de 0.9, learning rate de 0.005
 model.compile(optimizer=tf.keras.optimizers.SGD(lr=0.005, momentum=0.9),
 			  loss=euclidean_distance_loss,
-			  metrics=['accuracy'])
+			  metrics=['accuracy', 'mean_squared_error'])
 
 #####################################################
 # Entrenamiento
