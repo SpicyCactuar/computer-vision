@@ -15,7 +15,7 @@ def prepare_image_for_dataset(image_path):
     pX = random.randint(perturbation_range, 640 - 128 - perturbation_range)
     pY = random.randint(perturbation_range, 480 - 128 - perturbation_range)
 
-    crop = image[pX : pX + 128, pY : pY + 128].copy()
+    crop = image[pY : pY + 128, pX : pX + 128].copy()
 
     original_points = np.float32([
         (pX, pY),
@@ -31,22 +31,17 @@ def prepare_image_for_dataset(image_path):
     ])
 
     four_point_homography = perturbed_points - original_points
+    four_point_homography = four_point_homography.flatten()
     homography = cv2.getPerspectiveTransform(original_points, perturbed_points)
     # Ver si estamos consiguiendo la inversa o no
 
     perturbed_image = cv2.warpPerspective(image, homography, (640, 480), flags=cv2.WARP_INVERSE_MAP)
-    perturbed_crop = perturbed_image[pX : pX + 128, pY : pY + 128].copy()
 
-    print("Original")
-    print(original_points)
-    print("Perturbed")
-    print(perturbed_points)
+    # cv2.namedWindow("window")
+    # cv2.imshow("window", perturbed_image)
+    # cv2.waitKey(0)
 
-    cv2.namedWindow("window")
-    cv2.imshow("window", image)
-    cv2.waitKey(0)
-    cv2.imshow("window", perturbed_image)
-    cv2.waitKey(0)
+    perturbed_crop = perturbed_image[pY : pY + 128, pX : pX + 128].copy()
 
     return (crop, perturbed_crop, four_point_homography)
 
@@ -60,7 +55,8 @@ def prepare_dataset(dataset_path, destination_path):
 
     for i, filename in enumerate(dataset_filenames):
         crop, perturbed_crop, homography = prepare_image_for_dataset(filename)
-        cv2.imwrite(destination_path + str(i) + ".png", crop)
+
+        cv2.imwrite(destination_path + str(i) + "_original.png", crop)
         cv2.imwrite(destination_path + str(i) + "_perturbed.png", perturbed_crop)
 
         with open(destination_path + str(i) + ".csv", mode='w') as csv_file:

@@ -4,41 +4,65 @@
 import tensorflow as tf
 import numpy as np
 import cv2
+import glob
+from numpy import genfromtxt
 
 checkpoint_path = "checkpoints/cp.ckpt"
 
 #####################################################
 # Datos
 #####################################################
+original_files = sorted(glob.glob("./resources/train_dataset/*_original.png"))
+perturbed_files = sorted(glob.glob("./resources/train_dataset/*_perturbed.png"))
 
-img = cv2.imread("Paulo.png", cv2.IMREAD_GRAYSCALE)
-img2 = cv2.imread("Paulo2.png", cv2.IMREAD_GRAYSCALE)
+length = 1024 # len(original_files)
+max_train_index = int(length * 0.9)
 
-composite = np.zeros((128, 128, 2))
-composite[:,:,0] = img/255.0 #normalizar
-composite[:,:,1] = img2/255.0
+original_train_files = original_files[0: max_train_index]
+original_test_files = original_files[max_train_index:]
 
-labels = [-30.0, -20.0, 20.0, -12.0, -16.0, 41.0, 25.0, 30.0]
+perturbed_train_files = original_files[0: max_train_index]
+perturbed_test_files = perturbed_files[max_train_index:]
 
-x_train = np.array([composite] * 1024)
-y_train = np.array([labels] * 1024)
-
-# TODO: Hacer una clase secuencia que CARGUE las imágenes de a batches y las preprocese así no tenemos 500000 imágenes en memoria. Esto es sólo para probar multithreading. Ignorar.
 class ImageSequence(tf.keras.utils.Sequence):
-	def __init__(self, x_set, y_set, batch_size):
-		self.x, self.y = x_set, y_set
+	def __init__(self, original, perturbed, batch_size):
+		self.original_files = original
+		self.perturbed_files = perturbed
 		self.batch_size = batch_size
 
 	def __len__(self):
-		return int(np.ceil(len(self.x) / float(self.batch_size)))
+		return int(np.ceil(len(self.original_files) / float(self.batch_size)))
 
+	# Dar un batch de imágenes.
 	def __getitem__(self, idx):
-		batch_x = self.x[idx * self.batch_size:(idx + 1) * self.batch_size]
-		batch_y = self.y[idx * self.batch_size:(idx + 1) * self.batch_size]
+		batch_original = self.original_files[idx * self.batch_size : (idx + 1) * self.batch_size]
+		batch_perturbed = self.perturbed_files[idx * self.batch_size : (idx + 1) * self.batch_size]
 
-		return batch_x, batch_y
+		batch_x = []
+		batch_y = []
+		for i in range(len(batch_original)):
+			#print(batch_original[i])
+			#print(batch_perturbed[i])
 
-sequentialInput = ImageSequence(x_train, y_train, 64)
+			original = cv2.imread(batch_original[i], cv2.IMREAD_GRAYSCALE)
+			perturbed = cv2.imread(batch_perturbed[i], cv2.IMREAD_GRAYSCALE)
+
+			composite = np.zeros((128, 128, 2))
+			composite[:,:,0] = original/255.0 #normalizar
+			composite[:,:,1] = perturbed/255.0
+
+			batch_x.append(composite)
+			slash_index = batch_original[i].rfind('/')
+			label = batch_original[i][0:slash_index] + batch_original[i][slash_index:batch_original[i].rfind('_')] + ".csv"
+			#print(label)
+
+			label_array = genfromtxt(label, delimiter=",")
+			#print(label_array)
+			batch_y.append(label_array)
+
+		return np.array(batch_x), np.array(batch_y)
+
+sequential_input = ImageSequence(original_train_files, perturbed_train_files, 64)
 
 #####################################################
 # Modelo
@@ -135,8 +159,7 @@ lRateSchedulerCallback = tf.keras.callbacks.LearningRateScheduler(step_decay)
 checkpointCallback = tf.keras.callbacks.ModelCheckpoint(checkpoint_path, save_weights_only=False, verbose=1)
 
 # Ahora sí, a entrenar!
-model.fit(x_train, y_train, epochs=12, batch_size=64, callbacks=[lRateSchedulerCallback, checkpointCallback])
-#model.fit(sequentialInput, epochs=12, batch_size=64, callbacks=[lRateSchedulerCallback, checkpointCallback], use_multiprocessing=True, workers=16)
+model.fit(sequential_input, epochs=12, batch_size=64, callbacks=[lRateSchedulerCallback, checkpointCallback], use_multiprocessing=True, workers=16)
 # Ponerle que use multiprocessing y más workers no cambia nada ¯\_(ツ)_/¯
 
 # Guardar el modelo entrenado.
@@ -145,14 +168,6 @@ model.save('modelo_regresion_entrenado.h5')
 #####################################################
 # Evaluación y predicción
 #####################################################
-
-print(model.predict(np.array([composite])))
-
-composite2 = np.zeros((128, 128, 2))
-composite2[:,:,0] = img/255.0 #normalizar
-composite2[:,:,1] = img/255.0
-
-print(model.predict(np.array([composite2])))
-
+test_sequence = ImageSequence(original_test_files, perturbed_test_files, 64)
 # Evaluar el modelo:
-#model.evaluate(x_test, y_test)
+print(model.evaluate(test_sequence, use_multiprocessing=True, workers=16))
