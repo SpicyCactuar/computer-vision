@@ -3,6 +3,10 @@ TODOs
 
 * Cambiar código para usar gpu
 * Probar con gpu
+* Consultar tema de la inversa en warpPerspective()
+* Índices (x, y) intercambiados en las imagenes
+* Demasiada distorsión cuando se hace warpPerspective() con perturbation_range alto
+* Cómo entrenar la red
 
 DONE
 ====

@@ -33,7 +33,6 @@ def prepare_image_for_dataset(image_path):
     four_point_homography = perturbed_points - original_points
     four_point_homography = four_point_homography.flatten()
     homography = cv2.getPerspectiveTransform(original_points, perturbed_points)
-    # Ver si estamos consiguiendo la inversa o no
 
     perturbed_image = cv2.warpPerspective(image, homography, (640, 480), flags=cv2.WARP_INVERSE_MAP)
 
