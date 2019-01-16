@@ -7,6 +7,7 @@ TODOs
 * Índices (x, y) intercambiados en las imagenes
 * Demasiada distorsión cuando se hace warpPerspective() con perturbation_range alto
 * Cómo entrenar la red
+* Métrica de Mean Average Corner Error mencionada en el paper
 
 DONE
 ====
