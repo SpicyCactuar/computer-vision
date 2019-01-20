@@ -15,7 +15,7 @@ checkpoint_path = "checkpoints/cp.ckpt"
 original_files = sorted(glob.glob("./resources/train_dataset/*_original.png"))
 perturbed_files = sorted(glob.glob("./resources/train_dataset/*_perturbed.png"))
 
-length = 1024 # len(original_files)
+length = len(original_files)
 max_train_index = int(length * 0.9)
 
 original_train_files = original_files[0: max_train_index]

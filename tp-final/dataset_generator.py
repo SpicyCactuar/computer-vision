@@ -58,13 +58,16 @@ def prepare_dataset(dataset_path, destination_path):
         cv2.imwrite(destination_path + str(i) + "_original.png", crop)
         cv2.imwrite(destination_path + str(i) + "_perturbed.png", perturbed_crop)
 
+        if (i%1000 == 0):
+            print("Image: " + str(i) + "/" + str(len(dataset_filenames)))
+
         with open(destination_path + str(i) + ".csv", mode='w') as csv_file:
             writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             writer.writerow(homography)
 
 def main():
     random.seed(1337)
-    prepare_dataset("./resources/base_images/", "./resources/train_dataset/")
+    prepare_dataset("./resources/base_images/train2014/", "./resources/train_dataset/")
 
 if __name__ == "__main__":
     main()
