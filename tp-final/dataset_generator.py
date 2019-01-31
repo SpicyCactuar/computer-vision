@@ -50,7 +50,8 @@ def perturb(x, y):
 
 def prepare_dataset(dataset_path, destination_path):
     # Asumimos que son todas imagenes
-    dataset_filenames = glob.glob(dataset_path + "*")
+    dataset_filenames = glob.glob(dataset_path + "*") * 4
+	random.shuffle(dataset_filenames)
 
     for i, filename in enumerate(dataset_filenames):
         crop, perturbed_crop, homography = prepare_image_for_dataset(filename)
@@ -67,7 +68,7 @@ def prepare_dataset(dataset_path, destination_path):
 
 def main():
     random.seed(1337)
-    prepare_dataset("./resources/base_images/train2014/", "./resources/train_dataset/")
+    prepare_dataset("./resources/base_images/train2014/", "./resources/train_dataset_big/")
 
 if __name__ == "__main__":
     main()
