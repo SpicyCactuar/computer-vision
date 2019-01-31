@@ -170,7 +170,7 @@ else:
 model.fit(sequential_input, epochs=1, batch_size=batch_size, callbacks=[], use_multiprocessing=True, workers=16)
 # Ponerle que use multiprocessing y más workers no cambia nada ¯\_(ツ)_/¯
 
-Guardar el modelo entrenado.
+# Guardar el modelo entrenado.
 if len(checkpoint_files) > 0:
 	i = extract_number(checkpoint_path)[0] + 1
 else:
