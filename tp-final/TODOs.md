@@ -3,11 +3,6 @@ TODOs
 
 * Cambiar código para usar gpu
 * Probar con gpu
-* Consultar tema de la inversa en warpPerspective()
-* Índices (x, y) intercambiados en las imagenes
-* Demasiada distorsión cuando se hace warpPerspective() con perturbation_range alto
-* Cómo entrenar la red
-* Métrica de Mean Average Corner Error mencionada en el paper
 
 DONE
 ====
@@ -28,3 +23,9 @@ DONE
     * 90.000 iteraciones en total
     * Batch size de 64
     * los pesos de la red son inicializados al azar
+
+* Consultar tema de la inversa en warpPerspective()
+* Índices (x, y) intercambiados en las imagenes
+* Demasiada distorsión cuando se hace warpPerspective() con perturbation_range alto
+* Cómo entrenar la red
+* Métrica de Mean Average Corner Error mencionada en el paper
